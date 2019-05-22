@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket Test</title>
+    </style>
+</head>
+
+<body>
+    <div id="data"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        var socket = io();
+
+        socket.on('update', function (msg) {
+            $('#data').text(JSON.stringify(msg));
+        });
+    </script>
+</body>
+
+</html>
