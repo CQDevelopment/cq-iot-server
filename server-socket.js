@@ -49,6 +49,8 @@ module.exports = (port, model) => {
                 log('Error: ' + exception);
             }
         });
+
+        ws.on('error', console.log);
     });
 
 };
