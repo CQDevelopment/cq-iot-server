@@ -37,7 +37,8 @@ module.exports = (port, model) => {
             message,
             duration,
             longestDuration,
-            lastRx
+            lastRx,
+            parseInt(message) / 60 / 60 / 24
         ]);
     };
 
