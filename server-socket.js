@@ -38,7 +38,7 @@ module.exports = (port, model) => {
             lastIntervalSeconds: duration / 1000,
             longestIntervalSeconds: longestDuration / 1000,
             timestamp: lastRx,
-            indexRuntime: parseInt(message) / 60 / 60 / 24
+            indexRuntime: (parseInt(message) / 60 / 60 / 24).toFixed(3)
         });
     };
 
