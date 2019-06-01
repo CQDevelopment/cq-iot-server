@@ -33,16 +33,18 @@ module.exports = (port, model) => {
             ' ' + duration +
             ' ' + longestDuration);
 
-        model.update([
-            message,
-            duration,
-            longestDuration,
-            lastRx,
-            parseInt(message) / 60 / 60 / 24
-        ]);
+        model.update({
+            index: message,
+            lastIntervalSeconds: duration / 1000,
+            longestIntervalSeconds: longestDuration / 1000,
+            timestamp: lastRx,
+            indexRuntime: parseInt(message) / 60 / 60 / 24
+        });
     };
 
     wss.on('connection', (ws) => {
+        log('Client connected');
+
         ws.on('message', (message) => {
             try {
                 processMessage(message);

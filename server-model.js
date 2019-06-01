@@ -1,7 +1,7 @@
 module.exports = () => {
     const self = this;
 
-    self.value = ['initial'];
+    self.value = 'initial';
 
     self.update = (value) => {
         self.value = value;

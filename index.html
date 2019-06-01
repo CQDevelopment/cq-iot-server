@@ -5,22 +5,67 @@
     <title>Socket Test</title>
     <style>
         body {
+            font-family: sans-serif;
+
             font-size: 16px;
             font-size: 2em;
+        }
+
+        .wrapper td {
+            padding: 10px;
         }
     </style>
 </head>
 
 <body>
-    <div id="data"></div>
+    <div class="wrapper">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Index</td>
+                    <td data-bind="text: index"></td>
+                </tr>
+                <tr>
+                    <td>Last Interval (s)</td>
+                    <td data-bind="text: lastIntervalSeconds"></td>
+                </tr>
+                <tr>
+                    <td>Longest Interval (s)</td>
+                    <td data-bind="text: longestIntervalSeconds"></td>
+                </tr>
+                <tr>
+                    <td>Timestamp</td>
+                    <td data-bind="text: timestamp"></td>
+                </tr>
+                <tr>
+                    <td>Client Runtime (d)</td>
+                    <td data-bind="text: indexRuntime"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://knockoutjs.com/downloads/knockout-3.5.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js">
+    </script>
     <script>
         var socket = io();
 
-        socket.on('update', function (msg) {
-            $('#data').text(JSON.stringify(msg));
+        var viewModel = null;
+
+        socket.on('update', function (message) {
+            if (message === "initial") {
+                return;
+            }
+
+            if (viewModel === null) {
+                viewModel = ko.mapping.fromJS(message);
+                ko.applyBindings(viewModel);
+            }
+
+            ko.mapping.fromJS(message, viewModel);
         });
     </script>
 </body>
