@@ -1,4 +1,6 @@
 module.exports = (port, model) => {
+    var path = require('path');
+
     const log = (message) => {
         console.log('SERVER-WEB: %s', message);
     };
@@ -18,7 +20,7 @@ module.exports = (port, model) => {
     };
 
     app.get('/', (req, res) => {
-        res.sendFile(__dirname + '/index.html');
+        res.sendFile(path.join(__dirname, '../public', 'index.html'));
     });
 
     http.listen(port, () => {
