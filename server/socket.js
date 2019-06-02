@@ -55,5 +55,4 @@ module.exports = (port, model) => {
 
         ws.on('error', console.log);
     });
-
 };
