@@ -1,4 +1,5 @@
 import ServerBase from "./serverBase";
+import Model from "./model";
 
 import * as WebSocket from "ws";
 
@@ -10,8 +11,8 @@ export default class SocketServer extends ServerBase {
         this.log(`Received: ${message}`);
     };
 
-    constructor(port: number) {
-        super("SERVER-SCK");
+    constructor(port: number, model: Model) {
+        super("SERVER-SCK", model);
 
         this.log(`Initialising socket server on port ${port}`);
 
