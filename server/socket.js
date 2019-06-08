@@ -11,35 +11,8 @@ module.exports = (port, model) => {
         port: port
     });
 
-    var lastRx = null;
-    var longestDuration = 0;
-
-    var processMessage = (message) => {
-        var now = new Date();
-
-        if (lastRx === null) {
-            lastRx = now;
-        }
-
-        var duration = now - lastRx;
-
-        if (duration > longestDuration) {
-            longestDuration = duration;
-        }
-
-        lastRx = now;
-
-        log('Received: ' + message +
-            ' ' + duration +
-            ' ' + longestDuration);
-
-        model.update({
-            index: message,
-            lastIntervalSeconds: duration / 1000,
-            longestIntervalSeconds: longestDuration / 1000,
-            timestamp: lastRx,
-            indexRuntime: (parseInt(message) / 60 / 60 / 24).toFixed(3)
-        });
+    const processMessage = (message) => {
+        log('Received: ' + message);
     };
 
     wss.on('connection', (ws) => {
@@ -53,6 +26,10 @@ module.exports = (port, model) => {
             }
         });
 
-        ws.on('error', console.log);
+        ws.on('close', () => {
+            log('Client disconnected');
+        });
+
+        ws.on('error', log);
     });
 };
