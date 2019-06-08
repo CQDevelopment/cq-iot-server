@@ -16,6 +16,8 @@ export default class WebServer extends ServerBase {
         const http = Http.createServer(app);
         const io = SocketIo(http);
 
+        app.use(Express.static(Path.join(__dirname, '../../client')));
+
         app.get('/', (request, response) => {
             response.sendFile(Path.join(__dirname, '../../client', 'index.html'));
         });

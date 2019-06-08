@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es5",
+        "noImplicitAny": true,
+        "outDir": "../build/client/",
+        "removeComments": true,
+        "jsx": "react",
+        "moduleResolution": "node"
+    },
+    "files": [
+        "index.ts"
+    ],
+    "include": [
+        "**/*"
+    ]
+}

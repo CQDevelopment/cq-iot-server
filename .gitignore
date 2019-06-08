@@ -4,3 +4,4 @@ run
 build/client/*
 !build/client/index.html
 build/server
+*.scss.d.ts
