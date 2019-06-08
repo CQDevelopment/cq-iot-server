@@ -1,14 +1,14 @@
+import ServerBase from "./serverBase";
+
 import * as Path from "path";
 import * as Express from "express";
 import * as Http from "http";
 import * as SocketIo from "socket.io";
 
-export default class WebServer {
-    log(message: string) {
-        console.log(`SERVER-WEB: ${message}`);
-    };
-
+export default class WebServer extends ServerBase {
     constructor(port: number) {
+        super('SERVER-WEB');
+
         this.log(`Initialising web server on port ${port}`);
 
         const app = Express();

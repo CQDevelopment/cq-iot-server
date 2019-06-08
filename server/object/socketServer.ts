@@ -1,18 +1,18 @@
+import ServerBase from "./serverBase";
+
 import * as WebSocket from "ws";
 
-export default class SocketServer {
+export default class SocketServer extends ServerBase {
     port: number;
     webSocketServer: WebSocket.Server;
-
-    log(message: string) {
-        console.log(`SERVER-SCK: ${message}`);
-    };
 
     processMessage(message: string) {
         this.log(`Received: ${message}`);
     };
 
     constructor(port: number) {
+        super("SERVER-SCK");
+
         this.log(`Initialising socket server on port ${port}`);
 
         this.webSocketServer = new WebSocket.Server({ port: port });
