@@ -1,17 +1,23 @@
 {
-  "name": "websocket-proto",
+  "name": "cq-iot-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "monitor-server": "nodemon build/server/index.js --watch build/server",
+    "build-server": "tsc -p server -w"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.0",
-    "nodemon": "^1.19.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/socket.io": "^2.1.2",
+    "@types/ws": "^6.0.1",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1",
     "socket.io": "^2.2.0",
+    "typescript": "^3.5.1",
     "ws": "^7.0.0"
   }
 }
