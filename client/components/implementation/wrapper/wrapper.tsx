@@ -4,7 +4,7 @@ import Model from "../../../objects/model";
 import Log, { ILogProps } from "../../agnostic/log/log";
 
 import "./wrapper.scss";
-import Device from "../../agnostic/device/device";
+import Device, { IDeviceProps } from "../../agnostic/device/device";
 
 export interface IWrapperProps {
     model: Model
@@ -12,7 +12,7 @@ export interface IWrapperProps {
 
 export interface IWrapperState {
     logProps: ILogProps
-    devices: any[]
+    devicesProps: IDeviceProps[]
 }
 
 export default class Wrapper extends React.Component<IWrapperProps, IWrapperState> {
@@ -20,7 +20,7 @@ export default class Wrapper extends React.Component<IWrapperProps, IWrapperStat
         logProps: {
             messages: []
         },
-        devices: []
+        devicesProps: []
     };
 
     componentDidMount() {
@@ -39,8 +39,17 @@ export default class Wrapper extends React.Component<IWrapperProps, IWrapperStat
         this.props.model.registerSubscriber({
             name: 'devices',
             callback: () => {
+                const result: IDeviceProps[] = [];
+
+                this.props.model.devices.forEach(device => {
+                    result.push({
+                        model: this.props.model,
+                        device: device
+                    });
+                });
+
                 this.setState({
-                    devices: this.props.model.devices
+                    devicesProps: result
                 });
             }
         });
@@ -63,8 +72,8 @@ export default class Wrapper extends React.Component<IWrapperProps, IWrapperStat
                     <div className="row">
                         <Log {...this.state.logProps} />
                         {
-                            this.state.devices.map((device, index) => {
-                                return <Device key={index} data={device} />
+                            this.state.devicesProps.map((deviceProps, index) => {
+                                return <Device key={index} {...deviceProps} />
                             })
                         }
                     </div>
