@@ -2,6 +2,7 @@ import ServerBase from "./serverBase";
 import Model from "./model";
 
 import * as WebSocket from "ws";
+import RegisterPacket from "./registerPacket";
 
 export default class SocketServer extends ServerBase {
     port: number;
@@ -9,6 +10,12 @@ export default class SocketServer extends ServerBase {
 
     processMessage(message: string) {
         this.log(`Received: ${message}`);
+
+        if (message.startsWith('register')) {
+            const registerPacket = new RegisterPacket(message);
+
+            this.log(registerPacket.getJson());
+        }
     };
 
     constructor(port: number, model: Model) {

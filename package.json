@@ -6,7 +6,8 @@
   "scripts": {
     "monitor-server": "nodemon build/server/index.js --watch build/server",
     "build-server": "tsc -p server -w",
-    "monitor-client": "cd client && webpack --watch --mode development"
+    "monitor-client": "cd client && webpack --watch --mode development",
+    "dev": "concurrently --kill-others \"tsc -p server -w\" \"nodemon build/server/index.js --watch build/server\" \"cd client && webpack --watch --mode development\""
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "@types/ws": "^6.0.1",
     "awesome-typescript-loader": "^5.2.1",
     "bootstrap": "^4.3.1",
+    "concurrently": "^4.1.0",
     "css-loader": "^2.1.1",
     "csstype": "^2.6.5",
     "express": "^4.17.1",
