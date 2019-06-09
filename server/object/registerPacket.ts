@@ -5,8 +5,7 @@ export default class RegisterPacket extends PacketBase {
     sensorCount: number;
     pushCount: number;
 
-    constructor(message: string) {
-        const split = message.split(',');
+    constructor(split: string[]) {
         super(split);
 
         this.switchCount = parseInt(split[2]);

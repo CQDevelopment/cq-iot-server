@@ -11,8 +11,10 @@ export default class SocketServer extends ServerBase {
     processMessage(message: string) {
         this.log(`Received: ${message}`);
 
+        const split = message.split(',');
+
         if (message.startsWith('register')) {
-            const registerPacket = new RegisterPacket(message);
+            const registerPacket = new RegisterPacket(split);
 
             this.log(registerPacket.getJson());
         }
