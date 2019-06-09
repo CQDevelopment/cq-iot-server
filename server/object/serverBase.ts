@@ -13,6 +13,6 @@ export default abstract class ServerBase {
         const result = `[${new Date().toISOString()}] ${this.serverName}: ${message}`;
         console.log(result);
 
-        this.model.fire(result);
+        this.model.fire({ key: 'log', data: result });
     };
 }

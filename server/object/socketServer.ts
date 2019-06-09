@@ -3,20 +3,25 @@ import Model from "./model";
 
 import * as WebSocket from "ws";
 import RegisterPacket from "./registerPacket";
+import Device from "./device";
 
 export default class SocketServer extends ServerBase {
     port: number;
     webSocketServer: WebSocket.Server;
 
-    processMessage(message: string) {
+    processMessage(socket: WebSocket, message: string) {
         this.log(`Received: ${message}`);
 
         const split = message.split(',');
 
         if (message.startsWith('register')) {
             const registerPacket = new RegisterPacket(split);
+            const device = new Device(socket, registerPacket);
 
+            this.model.registerDevice(device);
             this.log(registerPacket.getJson());
+
+            return;
         }
     };
 
@@ -27,12 +32,12 @@ export default class SocketServer extends ServerBase {
 
         this.webSocketServer = new WebSocket.Server({ port: port });
 
-        this.webSocketServer.on('connection', (socket) => {
+        this.webSocketServer.on('connection', (socket: WebSocket) => {
             this.log('Client connected');
 
             socket.on('message', (message: string) => {
                 try {
-                    this.processMessage(message);
+                    this.processMessage(socket, message);
                 } catch (exception) {
                     this.log('Error: ' + exception);
                 }

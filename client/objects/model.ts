@@ -9,6 +9,8 @@ export default class Model {
     subscribers: ISubscriber[] = [];
     log: string[] = [];
 
+    devices: any[] = [];
+
     registerSubscriber(subscriber: ISubscriber) {
         this.subscribers.push(subscriber);
     }
@@ -33,9 +35,16 @@ export default class Model {
         this.fire('log');
     }
 
+    event_devices(devices: any[]) {
+        this.devices = devices;
+
+        this.fire('devices');
+    }
+
     constructor() {
         this.socket = io();
 
         this.socket.on('log', this.event_log.bind(this));
+        this.socket.on('devices', this.event_devices.bind(this));
     }
 }

@@ -5,12 +5,13 @@ import * as Path from "path";
 import * as Express from "express";
 import * as Http from "http";
 import * as SocketIo from "socket.io";
+import IEvent from "./IEvent";
 
 export default class WebServer extends ServerBase {
     io: SocketIo.Server;
 
-    fire(message: string) {
-        this.io.emit('log', message);
+    fire(event: IEvent) {
+        this.io.emit(event.key, event.data);
     }
 
     constructor(port: number, model: Model) {
@@ -20,7 +21,7 @@ export default class WebServer extends ServerBase {
 
         const app = Express();
         const http = Http.createServer(app);
-        
+
         this.io = SocketIo(http);
         this.model.registerSubscriber(this.fire.bind(this));
 
@@ -35,7 +36,8 @@ export default class WebServer extends ServerBase {
         });
 
         this.io.on('connection', (socket) => {
-            this.log('User connected');
+            this.log('User connected, sending devices');
+            this.model.sendDevices();
         });
     }
 }
