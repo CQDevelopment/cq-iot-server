@@ -7,6 +7,12 @@ import * as Http from "http";
 import * as SocketIo from "socket.io";
 
 export default class WebServer extends ServerBase {
+    io: SocketIo.Server;
+
+    fire(message: string) {
+        this.io.emit('log', message);
+    }
+
     constructor(port: number, model: Model) {
         super('SERVER-WEB', model);
 
@@ -14,7 +20,9 @@ export default class WebServer extends ServerBase {
 
         const app = Express();
         const http = Http.createServer(app);
-        const io = SocketIo(http);
+        
+        this.io = SocketIo(http);
+        this.model.registerSubscriber(this.fire.bind(this));
 
         app.use(Express.static(Path.join(__dirname, '../../client')));
 
@@ -26,7 +34,7 @@ export default class WebServer extends ServerBase {
             this.log('Listening on ' + port);
         });
 
-        io.on('connection', (socket) => {
+        this.io.on('connection', (socket) => {
             this.log('User connected');
         });
     }

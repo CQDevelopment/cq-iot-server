@@ -1,7 +1,41 @@
 import * as React from "react";
+
+import Model from "../../../objects/model";
+import Log, { ILogProps } from "../../agnostic/log/log";
+
 import "./wrapper.scss";
 
-export default class Wrapper extends React.Component {
+export interface IWrapperProps {
+    model: Model
+}
+
+export interface IWrapperState {
+    logProps: ILogProps
+}
+
+export default class Wrapper extends React.Component<IWrapperProps, IWrapperState> {
+    state: IWrapperState = {
+        logProps: {
+            messages: []
+        }
+    };
+
+    componentDidMount() {
+        this.props.model.registerSubscriber({
+            name: 'log',
+            callback: () => {
+                console.log('xxx');
+
+                this.setState({
+                    logProps: {
+                        ...this.state.logProps,
+                        messages: this.props.model.log
+                    }
+                });
+            }
+        });
+    }
+
     render() {
         return <div className="wrapper">
             <header>
@@ -16,7 +50,9 @@ export default class Wrapper extends React.Component {
 
             <main role="main" className="wrapper__main">
                 <div className="container">
-                    Hello, World!
+                    <div className="row">
+                        <Log {...this.state.logProps} />
+                    </div>
                 </div>
             </main>
 

@@ -5,7 +5,10 @@ import "bootstrap";
 import "./style/style.scss";
 
 import Wrapper from "./components/implementation/wrapper/wrapper";
+import Model from "./objects/model";
+
+const model = new Model();
 
 ReactDOM.render(
-    React.createElement(Wrapper),
+    React.createElement(Wrapper, { model: model }),
     document.getElementById("wrapper"));
