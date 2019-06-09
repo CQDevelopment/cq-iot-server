@@ -4,6 +4,7 @@ import Model from "./model";
 import * as WebSocket from "ws";
 import RegisterPacket from "./registerPacket";
 import Device from "./device";
+import SwitchPacket from "./switchPacket";
 
 export default class SocketServer extends ServerBase {
     port: number;
@@ -14,13 +15,20 @@ export default class SocketServer extends ServerBase {
 
         const split = message.split(',');
 
-        if (message.startsWith('register')) {
+        if (split[0] === 'register') {
             const registerPacket = new RegisterPacket(split);
             const device = new Device(socket, registerPacket);
 
             this.model.registerDevice(device);
             this.log(registerPacket.getJson());
+            return;
+        }
 
+        if (split[0] === 'switch') {
+            const switchPacket = new SwitchPacket(split);
+
+            this.model.handleSwitch(switchPacket);
+            this.log(switchPacket.getJson());
             return;
         }
     };
@@ -48,6 +56,18 @@ export default class SocketServer extends ServerBase {
             });
 
             socket.on('error', this.log);
+        });
+
+        this.model.registerSubscriber((event) => {
+            if (event.key === 'deviceState') {
+                const device = (event.data as Device);
+
+                for (let i = 0; i < device.registerPacket.switchCount; i++) {
+                    device.socket.send(`getSwitch,${i}`);
+                }
+
+                return;
+            }
         });
     }
 }

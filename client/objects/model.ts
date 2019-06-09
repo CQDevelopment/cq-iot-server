@@ -41,6 +41,10 @@ export default class Model {
         this.fire('devices');
     }
 
+    send_switch(deviceId: string, index: number, state: boolean) {
+        this.socket.emit('sendSwitch', deviceId, index, state);
+    }
+
     constructor() {
         this.socket = io();
 

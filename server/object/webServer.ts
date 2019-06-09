@@ -38,6 +38,12 @@ export default class WebServer extends ServerBase {
         this.io.on('connection', (socket) => {
             this.log('User connected, sending devices');
             this.model.sendDevices();
+
+            socket.on('sendSwitch', (deviceId: string, index: number, state: boolean) => {
+                this.log(`sendSwitch,${deviceId},${index},${state}`);
+
+                this.model.handleSwitchUpdate(deviceId, index, state);
+            });
         });
     }
 }
