@@ -14,7 +14,7 @@ export default class WebServer extends ServerBase {
     }
 
     constructor(port: number, model: Model) {
-        super('SERVER-WEB', model);
+        super('WEB', model);
 
         this.log(`Initialising web server on port ${port}`);
 

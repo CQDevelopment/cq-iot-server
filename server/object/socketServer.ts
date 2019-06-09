@@ -21,7 +21,7 @@ export default class SocketServer extends ServerBase {
     };
 
     constructor(port: number, model: Model) {
-        super("SERVER-SCK", model);
+        super("SCK", model);
 
         this.log(`Initialising socket server on port ${port}`);
 
