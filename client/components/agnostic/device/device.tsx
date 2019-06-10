@@ -1,5 +1,6 @@
 import * as React from "react";
 import Model from "../../../objects/model";
+import "./device.scss";
 
 export interface IDeviceProps {
     device: any,
@@ -12,25 +13,29 @@ export default class Device extends React.PureComponent<IDeviceProps> {
 
         this.props.model.send_switch(
             this.props.device.registerPacket.deviceId,
-            index, 
+            index,
             state);
     }
 
     render() {
         const switchers = this.props.device.state.switches.map((value: boolean, index: number) => {
-            const buttonClass = value ? 'btn btn-success' : 'btn btn-danger';
+            let buttonClass = 'btn btn-lg ';
+            buttonClass += value ? 'btn-success' : 'btn-danger';
 
-            return <div key={index} className="form-group row">
-                <label className="col-form-label">{index + 1}</label>
-                <button type="button" className={buttonClass} onClick={() => { this.switchClick.bind(this)(index, value) }}>{value ? 'On' : 'Off'}</button>
-            </div>;
+            return <button
+                key={index}
+                type="button"
+                className={buttonClass}
+                onClick={() => { this.switchClick.bind(this)(index, value) }}>
+                {index + 1}
+            </button>;
         });
 
-        return <div className="device col-lg-4">
-            <div className="card">
-                <div className="card-body">
+        return <div className="device col-lg-3">
+            <div className="device__card card">
+                <div className="device__card__body card-body">
                     <h5 className="card-title">{this.props.device.name}</h5>
-                    <form>
+                    <form className="device__card__body__switchers">
                         {switchers}
                     </form>
                 </div>

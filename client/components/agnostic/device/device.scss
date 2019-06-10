@@ -1,0 +1,11 @@
+.device {
+    &__card {
+        &__body {
+            &__switchers {
+                button {
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+}

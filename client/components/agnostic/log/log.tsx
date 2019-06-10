@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./log.scss";
 
 export interface ILogProps {
     messages: string[]
@@ -7,8 +8,8 @@ export interface ILogProps {
 export default class Log extends React.Component<ILogProps> {
     render() {
         return <div className="log col-lg-12">
-            <div className="card">
-                <div className="card-body">
+            <div className="log__card card">
+                <div className="log__card__body card-body">
                     <h5 className="card-title">Log</h5>
                     {
                         this.props.messages.map((entry, index) => {
